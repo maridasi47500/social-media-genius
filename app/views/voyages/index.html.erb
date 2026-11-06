@@ -1,0 +1,25 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Voyages" %>
+
+<div class="row row-cols-1 md:row-cols-3 g-4">
+  <%begin%>
+  <%=render Logement.all.sample%>
+  <%=render Voyage.all.sample%>
+  <%=render Job.all.sample%>
+<%rescue => e%>
+  <p>ajoute des logements, emplois et voyage laisser le génie prédire ton futur</p>
+<%end%>
+</div>
+<h1>Voyages</h1>
+
+<div id="voyages">
+  <% @voyages.each do |voyage| %>
+    <%= render voyage %>
+    <p>
+      <%= link_to "Show this voyage", voyage %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New voyage", new_voyage_path %>

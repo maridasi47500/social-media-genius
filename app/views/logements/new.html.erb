@@ -1,0 +1,11 @@
+<% content_for :title, "New logement" %>
+
+<h1>New logement</h1>
+
+<%= render "form", logement: @logement %>
+
+<br>
+
+<div>
+  <%= link_to "Back to logements", logements_path %>
+</div>

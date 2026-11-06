@@ -1,0 +1,21 @@
+<div class="col">
+    <%couleur=["hearts", "spades", "clubs", "diams"].sample%>
+    <div class="card card-translucent <%=couleur%>" style="width: 18rem;">
+  <div class="card-header">
+    <%numero=["A", "2", "3", "4", "5", "6", "7", "8", "9","10", "J","Q","K"].sample%>
+
+    <span class="numero"><%=numero%></span>
+    <span class="couleur">&<%=couleur%>;</span>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title"><%=voyage.title%></h4>
+    <img src="/uploads/<%=voyage.pic%>" class="card-img-top" alt="...">
+    
+    <a href="<%=voyage_path(voyage)%>" class="btn-solid theme-primary">Go somewhere</a>
+  </div>
+  <div class="card-footer fg-2">
+    <span class="numero"><%=numero%></span>
+    <span class="couleur">&<%=couleur%>;</span>
+  </div>
+</div>
+</div>

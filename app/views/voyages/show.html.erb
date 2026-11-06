@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @voyage %>
+
+<div>
+  <%= link_to "Edit this voyage", edit_voyage_path(@voyage) %> |
+  <%= link_to "Back to voyages", voyages_path %>
+
+  <%= button_to "Destroy this voyage", @voyage, method: :delete %>
+</div>
