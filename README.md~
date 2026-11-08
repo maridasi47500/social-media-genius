@@ -1,5 +1,5 @@
 🧞 Le Pari du Génie : 3 Vœux pour une Destinée
-![Alt Text](futur1.png)
+![Alt Text](futur1.jpg)
 
 Ce projet explore un système de choix de vie radical sous forme de pacte avec un Génie. Ici, pas de demi-mesure : chaque décision peut t'ouvrir les portes du monde ou te condamner à l'immobilisme.
 🎲 L'Audace contre la Sécurité
