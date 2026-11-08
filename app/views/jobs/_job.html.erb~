@@ -3,6 +3,7 @@
     <div class="card card-translucent <%=couleur%>" style="width: 18rem;">
   <div class="card-header">
     <%numero=["A", "2", "3", "4", "5", "6", "7", "8", "9","10", "J","Q","K"].sample%>
+    <%@cardsvalue.append({"mytype": "job", "value": job.id, "couleur": couleur, "numero": numero})%>
 
     <span class="numero"><%=numero%></span>
     <span class="couleur">&<%=couleur%>;</span>
@@ -14,8 +15,9 @@
     <a href="<%=job_path(job)%>" class="btn-solid theme-primary">Go somewhere</a>
   </div>
   <div class="card-footer fg-2">
-    <span class="numero"><%=numero%></span>
+
     <span class="couleur">&<%=couleur%>;</span>
+    <span class="numero"><%=numero%></span>
   </div>
 </div>
 </div>

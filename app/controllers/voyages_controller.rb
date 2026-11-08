@@ -4,6 +4,8 @@ class VoyagesController < ApplicationController
   # GET /voyages or /voyages.json
   def index
     @voyages = Voyage.all
+    @voeux=params[:voeux].to_a
+    @cardsvalue=[]
   end
 
   # GET /voyages/1 or /voyages/1.json

@@ -16,3 +16,20 @@ transform: rotate(180deg); /* Rotates text 45 degrees */
 .diams .couleur, .diams .numero, .hearts .couleur, .hearts .numero {
 	color:red;
 }
+#validationForm [name=imfeelinglucky] {
+	width: 100%;
+	background-color: orange; color:white;font-size: 20px;
+}
+#validationForm [name=threewishes] {
+	width: 100%;
+	background-color: green; color:white;font-size: 25px;
+}
+#validationForm  {
+	width: 100%;
+	margin-top:10px;
+	padding:10px;
+}
+#validationForm [name=newwishes] {
+	width: 100%;
+	background-color: yellow; color:black;font-size: 16px;
+}

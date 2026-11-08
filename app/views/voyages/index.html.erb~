@@ -2,13 +2,48 @@
 
 <% content_for :title, "Voyages" %>
 
-<div class="row row-cols-1 md:row-cols-2 g-4">
+<%if @voeux.length == 0%>
+
   <%begin%>
-  <%=render Logement.all.sample%>
-  <%=render Voyage.all.sample%>
-  <%=render Job.all.sample%>
+    <%=form_with method: :get, html: {id: "myForm"} do |f| %>
+      <div class="field">
+        <%=f.label "voeux", "Choisis trois choses que tu voudrais en priorité"%>
+
+        <%["Logement", "Voyage", "Job", "Relationship"].each_with_index do |g,myid|%>
+        <div class="myfield">
+        <%=f.check_box :voeux, {checked: params[:voeux].to_a.include?(g), multiple: true, id:"voeu#{myid}"}, g, "0"%>
+        <%=f.label "voeux", g, for: "voeu#{myid}"%>
+      </div>
+      <%end%>
+      </div>
+      <div class="actions">
+        <%=f.submit "valider"%>
+      </div>
+    <%end%>
 <%rescue => e%>
-  <p>ajoute des logements, emplois et voyage laisser le génie prédire ton futur</p>
+  <p><%=e.message%></p>
+<%end%>
+<%else%>
+<div class="row row-cols-1 md:row-cols-3 g-4">
+
+<%begin%>
+  <%@wishes=[]%>
+  <%@voeux.to_a.select{|g| g != "0" }.each do |g|%>
+  <%x= eval(g+".all.sample")%>
+  <%=render x%>
+  <%@wishes.append(x)%>
+
+<%end%>
+<%=form_with url: threewishes_hello_path(step: 1), method: :get, html: {id: "validationForm"} do |f|%>
+
+  <%=f.hidden_field :mycard, id: "mycardsvalue", value: dumps(@cardsvalue).to_s %>
+  <%=f.submit "ce sont mes trois voeux", name: "threewishes"%>
+  <%=f.submit "j'ai de la chance", name: "imfeelinglucky"%>
+  <%=f.submit "tirer trois nouveaux voeux", name: "newwishes"%>
+<%end%>
+<%rescue => e%>
+  <p><%=e.message%>ajoute des logements, emplois, types de relations et voyage que tu aimerais avoir ou faire pour laisser le génie prédire ton futur</p>
+<%end%>
 <%end%>
 </div>
 <h1>Voyages</h1>
@@ -23,3 +58,14 @@
 </div>
 
 <%= link_to "New voyage", new_voyage_path %>
+<script>
+document.getElementById('myForm').addEventListener('submit', function(e) {
+  const checkboxes = document.querySelectorAll('input[name="voeux[]"]:checked');
+  
+  if (checkboxes.length !== 3) {
+    e.preventDefault(); // Bloque l'envoi du formulaire
+    alert('Veuillez sélectionner 3 options en tout.');
+  }
+  return false;
+});
+</script>

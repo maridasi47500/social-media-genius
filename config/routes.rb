@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "threewishes/hello"
+  resources :relationships
   resources :jobs
   resources :voyages
   resources :logements

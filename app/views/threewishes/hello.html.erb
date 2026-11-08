@@ -1,0 +1,87 @@
+<h1>c'était bien tes 3 voeux ?</h1>
+
+<div class="row row-cols-1 md:row-cols-3 g-4">
+
+
+  <%@types=[]%>
+ <%JSON.parse(params[:mycard]).to_a.select{|g| g != "0" }.each do |g|%>
+   <%job=eval(g["mytype"].titleize+".find(#{g["value"]})")%>
+   <%@types.append(g["mytype"])%>
+   <div class="col">
+    <%couleur=g["couleur"]%>
+    <div class="card card-translucent <%=couleur%>" style="width: 18rem;">
+  <div class="card-header">
+    <%numero=g["numero"]%>
+
+    <span class="numero"><%=numero%></span>
+    <span class="couleur">&<%=couleur%>;</span>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title"><%=job.title%></h4>
+    <img src="/uploads/<%=job.pic%>" class="card-img-top" alt="...">
+    
+    <%=link_to "Go somewhere", job, class: "btn-solid theme-primary" %>
+  </div>
+  <div class="card-footer fg-2">
+
+    <span class="couleur">&<%=couleur%>;</span>
+    <span class="numero"><%=numero%></span>
+  </div>
+</div>
+</div>
+
+<%end%>
+</div>
+
+<%if params[:threewishes].to_s.length > 0%>
+  <p>ok je prends ta parole au sérieux. si c'est ce que tu as sélectionné comme trois voeux.</p>
+  <%@missingtypes = ["Logement", "Job", "Relationship"].select{|h|!@types.include?(h.downcase)}%>
+  <%=form_with url: threewishes_hello_path(step: 1), method: :get, html: {id: "confirmForm"} do |f|%>
+
+  <%if @missingtypes.length > 0%>
+    <p>vu que tu as pas sélectionné le job que tu veux faire , tu as sans doute besoin de <%=@missingtypes.to_sentence%> si j'exhauce tes voeux, tu peux sans doute pas continuer la vie sans mimimum un <%=@missingtypes.to_sentence%> , dépeche toi il te reste une dizaine de minutes pour valider tes choix et si tu complète le nom de tes <%=@missingtypes.to_sentence%> avant la limite du temps , j'exhaucerai tes voeux. </p>
+    <%@missingtypes.each do |h|%>
+      <div class="field">
+        <%=f.label h.downcase%>
+        <%=f.text_field h.downcase%>
+      </div>
+    <%end%>
+    <%if @types.include?("voyage")%>
+      <div class="field">
+        <%=f.label "lieu_voyage", "donnez moi le lieu du voyage précisément svp"%>
+        <%=f.text_field "lieu_voyage"%>
+      </div>
+    <%end%>
+    <%if @types.include?("logement")%>
+      <div class="field">
+        <%=f.label "lieu_logement", "donnez moi le lieu du logement précisément svp"%>
+        <%=f.text_field "lieu_logement"%>
+      </div>
+    <%end%>
+    <%if @types.include?("relationship")%>
+      <div class="field">
+        <%=f.label "lieu_relation", "donnez moi le lieu de la relation précisément svp"%>
+        <%=f.text_field "lieu_relation"%>
+      </div>
+      <div class="field">
+        <%=f.label "duree_relation", "donnez moi la durée souhaitee de la relation précisément svp"%>
+        <%=f.text_field "duree_relation"%>
+      </div>
+      <div class="field">
+        <%=f.label "nom_relation", "donnez moi le nom de la relation précisément svp"%>
+        <%=f.text_field "nom_relation"%>
+      </div>
+    <%end%>
+
+  <%end%>
+  <%=f.hidden_field :mycard, id: "mycardsvalue", value: params[:mycard] %>
+  <p>je suis (la)le génie, je suis là pour exhaucer ton voeu</p>
+  <p>attention, ce sont bien tes trois voeux, il n'y aura pas de retour en arrière possible</p>
+  <%=f.submit "ce sont bien mes trois voeux", name: "threewishesconfirmed"%>
+<%end%>
+<%end%>
+<script>
+setTimeout(() => {
+  confirmForm.outerHTML="<p>oooops, le temps a expiré. repasse me voir ou trouve un autre génie</p>";
+}, 600000);
+</script>

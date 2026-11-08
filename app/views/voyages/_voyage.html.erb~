@@ -14,8 +14,9 @@
     <a href="<%=voyage_path(voyage)%>" class="btn-solid theme-primary">Go somewhere</a>
   </div>
   <div class="card-footer fg-2">
-    <span class="numero"><%=numero%></span>
+
     <span class="couleur">&<%=couleur%>;</span>
+    <span class="numero"><%=numero%></span>
   </div>
 </div>
 </div>
