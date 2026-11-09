@@ -33,13 +33,15 @@
 <%end%>
 </div>
 
+<%if params[:step].to_s == "1"%>
 <%if params[:threewishes].to_s.length > 0%>
+  <h2>Step 1 : ce sont mes 3 voeux</h2>
   <p>ok je prends ta parole au sérieux. si c'est ce que tu as sélectionné comme trois voeux.</p>
   <%@missingtypes = ["Logement", "Job", "Relationship"].select{|h|!@types.include?(h.downcase)}%>
-  <%=form_with url: threewishes_hello_path(step: 1), method: :get, html: {id: "confirmForm"} do |f|%>
+  <%=form_with url: threewishes_hello_path, method: :get, html: {id: "confirmForm"} do |f|%>
 
   <%if @missingtypes.length > 0%>
-    <p>vu que tu as pas sélectionné le job que tu veux faire , tu as sans doute besoin de <%=@missingtypes.to_sentence%> si j'exhauce tes voeux, tu peux sans doute pas continuer la vie sans mimimum un <%=@missingtypes.to_sentence%> , dépeche toi il te reste une dizaine de minutes pour valider tes choix et si tu complète le nom de tes <%=@missingtypes.to_sentence%> avant la limite du temps , j'exhaucerai tes voeux. </p>
+    <p>vu que tu as pas sélectionné le job que tu veux faire , tu as sans doute besoin de <%=@missingtypes.to_sentence%> si j'exhauce tes voeux, tu peux sans doute pas continuer la vie sans mimimum un <%=@missingtypes.to_sentence%> , dépeche toi il te reste une dizaine de minutes pour valider tes choix et si tu complète le nom de tes <%=@missingtypes.to_sentence%> avant la limite du temps , j'exhaucerai tes voeux. attention, tu es prié de me dire le nom de tes <%=@missingtypes.to_sentence%> car j'en ai besoin afin d'exhaucer tes 3 voeux, mais il ne me sera pas possible d'exhaucer pour toi les <%=@missingtypes.to_sentence%> que tu feras ou auras, ces dernières choses sont uniquement ton affaire. Le nombre de voeux que je peux exhaucer pour toi est seulement de 3.</p>
     <%@missingtypes.each do |h|%>
       <div class="field">
         <%=f.label h.downcase%>
@@ -74,14 +76,126 @@
     <%end%>
 
   <%end%>
+  <%=f.hidden_field :step, value: 2 %>
   <%=f.hidden_field :mycard, id: "mycardsvalue", value: params[:mycard] %>
-  <p>je suis (la)le génie, je suis là pour exhaucer ton voeu</p>
+  <p>je suis (la)le génie, je suis là pour exhaucer tes voeux</p>
   <p>attention, ce sont bien tes trois voeux, il n'y aura pas de retour en arrière possible</p>
   <%=f.submit "ce sont bien mes trois voeux", name: "threewishesconfirmed"%>
 <%end%>
+<%elsif params[:imfeelinglucky].to_s.length > 0%>
+  <h2>Step 1 : j'ai de la chance</h2>
+  <p>
+  si tu as choisi de me dire que tu as de la chance , ça ne veut pas dire que je vais exhaucer plus de voeux pour toi, ou que tu feras moins d'efforts. mais un voyage de 1000km commence par un premier pas, je vais t'aider seulement un tout petit peu.
+  Le nombre de voeux que je peux exhaucer est toujours de 3 rappelle toi bien. 
+
+  </p>
+
+  <%x=@mycard.map{|g|"1 " + g['mytype']}%>
+
+  <p>tu avais choisi <%=x.to_sentence%> et aujourd'hui tu as de la chance.</p>
+
+  <%g=@mycard.sample%>
+
+  <p>aujourd'hui tu as gagné 1 <%=g["mytype"]%> </p>
+    <%numero=["A", "2", "3", "4", "5", "6", "7", "8", "9","10", "J","Q","K"].sample%>
+    <%couleur=["hearts", "spades", "clubs", "diams"].sample%>
+  <div class="row row-cols-1 md:row-cols-3 g-4">
+
+
+
+  <%begin%>
+
+      <%job=eval(g["mytype"].titleize+".where.not(id: #{g["value"]}).sample")%>
+   <div class="col">
+    <div class="card card-translucent <%=couleur%>" style="width: 18rem;">
+  <div class="card-header">
+
+    <span class="numero"><%=numero%></span>
+    <span class="couleur">&<%=couleur%>;</span>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title"><%=job.title%></h4>
+    <img src="/uploads/<%=job.pic%>" class="card-img-top" alt="...">
+    
+    <%=link_to "Go somewhere", job, class: "btn-solid theme-primary" %>
+  </div>
+  <div class="card-footer fg-2">
+
+    <span class="couleur">&<%=couleur%>;</span>
+    <span class="numero"><%=numero%></span>
+  </div>
+</div>
+</div>
+
+
+<%rescue => e%>
+  <p><%=e.message%>..rien, comme aucun autre <%=g["mytype"]%> était disponible . je suis désolé(e), tu devras rejouer.</p>
+
+<%end%>
+  </div>
+  <p>
+  attention tes voeux ne sont pas exhaucés pour le moment. Saisis cette chance , et je n'exhaucerai pas tes 3 voeux.
+  </p>
+  <p>
+  c'est à prendre ou à laisser. si tu sais que si j'exhauce tes trois voeux immédiatement, il pourrait être encore plus difficile de retrouver une opportunité égale ailleurs ou avec un autre génie.
+  tu as encore du temps pour réfléchir. Tu peux Utiliser ta chance avant de repasser me voir s'il te plait.
+  Ici tu as compris je n'ai pas de distributeur automatique de voeux, je compte les nombre de sessions utilisées pour essayer de me contacter, tu ne peux pas me visiter plus d'un nombre de fois.
+
+  </p>
+  <p> très peu de gens sont assez chanceux pour trouver une combinaison de voeux qui leur convient , et qui les laisse pas malheureux après que le voeu est réalisé, parfois aussi, la chance attire la chance tu sais c'est de la sérendipité </p>
+  <p> je peux te tendre l'opportunité , mais je ne pourrai pas t'aider, car je suis le génie, uniquement là pour exhaucer tes voeux , si tu en as 3.</p>
+
+  <b>
+  <ul>
+    pour résumer, tu as deux choix exclusifs :
+
+    <li>
+« Je saisis ma chance » : Accepter l'opportunité tirée au sort (sans consommer les 3 voeux immédiatement).
+    </li>
+
+    <li>
+« Ce sont mes 3 voeux définitifs » : Refuser l'opportunité actuelle pour valider directement ses 3 voeux garantis
+    </li>
+
+  </ul>
+  </b>
+  <%=form_with url: threewishes_hello_path, method: :get, html: {id: "confirmLuckyForm"} do |f|%>
+  <%=f.hidden_field :step, value: 2 %>
+  <%=f.hidden_field :mycard, id: "mycardsvalue1", value: params[:mycard] %>
+  <%=f.hidden_field :myluck, id: "mylucksvalue1", value: JSON.dump({"mytype": g["mytype"], "value": job.id, "couleur": couleur, "numero": numero}) %>
+  <p>
+  <b>
+  type d'Oppornité : 
+  </b>
+
+
+  <%=g["mytype"]%>
+
+  </p>
+  <p>
+  <b>Oppornité :</b> <%=job.title%>
+
+  </p>
+  <%=f.submit "je saisis ma chance", name: "trymyluck"%>
+<%=f.submit "ce sont mes trois voeux définitifs, je rate l'opportunité, mais j'ai la garantie que mes 3 voeux seront exhaucés", name: "threewishesconfirmed"%>
+  <%end%>
+  <p>
+  repasse me voir quand tu comptes exhaucer 3 voeux et que tu es sur(e) que ce sera définitif. 
+  </p>
 <%end%>
 <script>
 setTimeout(() => {
   confirmForm.outerHTML="<p>oooops, le temps a expiré. repasse me voir ou trouve un autre génie</p>";
 }, 600000);
 </script>
+<%elsif params[:step].to_s == "2"%>
+  <h2>Step 2 : j'ai de la chance </h2>
+  <p> le temps des "bye bye"</p>
+  <p>
+  Dans un souci de confiance, sansquoi je peux pas exhaucer, j'ai besoin de connaitre les gens à qui tu va dire bye,bye, pour m'asurer que quand j'ehxuace tes voeux, ta vie soit accomplie comme tu l'as souhaite. dis moi Trois personnes à qui tu diras "bye bye", pour être sûre que le petit train train de ta nouvelle vie soit parfaitement assuré sans encombre, et tu pourras quitter définitement, le quartier, l'association, le groupe, peu importe tes relations que tu avais , celles qui compte c'est celles du voeu que tu as fait, ou le job, voyage, selon tes voeux.
+
+
+  </p>
+  <textarea placeholder="bye bye ">
+  </textarea>
+<%end%>

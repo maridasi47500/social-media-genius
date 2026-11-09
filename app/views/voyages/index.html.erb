@@ -34,8 +34,9 @@
   <%@wishes.append(x)%>
 
 <%end%>
-<%=form_with url: threewishes_hello_path(step: 1), method: :get, html: {id: "validationForm"} do |f|%>
+<%=form_with url: threewishes_hello_path, method: :get, html: {id: "validationForm"} do |f|%>
 
+  <%=f.hidden_field :step, value: 1 %>
   <%=f.hidden_field :mycard, id: "mycardsvalue", value: JSON.dump(@cardsvalue).to_s %>
   <%=f.submit "ce sont mes trois voeux", name: "threewishes"%>
   <%=f.submit "j'ai de la chance", name: "imfeelinglucky"%>
